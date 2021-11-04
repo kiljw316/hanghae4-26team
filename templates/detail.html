@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            showReview();
+        })
+
+        function makeComent() {
+            let person = $('#person').val()
+            let review = $('#review').val()
+            $.ajax({
+                type: "POST",
+                url: "/review",
+                data: {
+                    alcohol_give: '{{ alcohol.name }}',
+                    person_give: person,
+                    review_give: review,
+                    date_give: new Date()
+                },
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            })
+        }
+
+        function showReview() {
+
+            $.ajax({
+                type: "GET",
+                url: `/review?name_give={{ alcohol.name }}`,
+                data: {},
+                success: function (response) {
+                    let reviews = response['reviews']
+                    for (let i = 0; i < reviews.length; i++) {
+                        let author = reviews[i]['author']
+                        let review = reviews[i]['review']
+
+                        let temp_html = `<div id="review_box">
+                                            <span>${author}</span>
+                                            <hr>
+                                            <span>${review}</span>
+                                        </div>`
+
+                        $('#big_review_box').append(temp_html)
+                    }
+                }
+            })
+        }
+
+
+    </script>
+
+
+    <title>술의 민족</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Jua', sans-serif;
+        }
+
+        span {
+            font-size: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .wrap {
+            margin: auto;
+            width: 1000px;
+        }
+
+
+        .posting-box {
+            margin: 30px auto 30px auto;
+            border-radius: 5px;
+            border: black solid 1px;
+
+        }
+
+        .alcol_img {
+            width: auto;
+            height: 600px;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+
+        }
+
+        .alcol_info {
+            width: 400px;
+            margin: auto;
+            height: 200px;
+        }
+
+        .alcol_detail {
+            box-shadow: 10px 10px 10px 10px;
+            margin: 50px 100px 10px -5px;
+            width: 1000px;
+            height: 800px;
+            background-position: center;
+        }
+
+        .form-group1 {
+
+            margin: 10px;
+
+        }
+
+        .form-group2 {
+            margin: 10px;
+
+        }
+
+        .button {
+            margin: 10px 10px 10px 900px;
+
+        }
+
+        #review_box {
+            width: auto;
+            height: 150px;
+            border: black solid 2px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            box-shadow: 10px 10px 10px;;
+
+        }
+
+        .banner {
+            width: 1000px;
+            height: 200px;
+            margin: 10px -10px 0px 0px;
+            background-color: #240b3b;
+            padding-bottom: 30px;
+        }
+
+        .banner-text {
+            color: white;
+            font-size: 100px;
+            text-align: center;
+        }
+
+        a {
+
+            color: black;
+        }
+
+        a:visited { color: #000000;}
+        a:link {
+            color: #000000;
+            text-decoration: none;
+        }
+        a:hover {
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+        <div class="big_box">
+            <a href="/" ><h1 class="display-4">술의 민족</h1></a>
+        </div>
+{#    <div class="banner">#}
+{#        <div class="banner-text">술의 민족</div>#}
+{#    </div>#}
+    <div class="alcol_detail">
+        <div class="alcol_img">
+             <img style="width: 1000px; height: 600px" class="img" src="../static/{{ num }}.png">
+        </div>
+
+        <div class="alcol_info">
+            <p style="color: indianred" id="alcohol_name">{{ alcohol.name }}</p>
+            <p>{{ alcohol.desc }}</p>
+        </div>
+    </div>
+    <div class="posting-box">
+        <div class="form-group1">
+            <label for="exampleInputEmail1"><h5>작성자</h5></label>
+            <input type="text" class="form-control" id="person" aria-describedby="emailHelp"
+                   placeholder="">
+        </div>
+        <div class="form-group2">
+            <label for="exampleInputPassword1"><h5>코멘트</h5></label>
+            <input type="text" class="form-control" id="review" placeholder="">
+
+        </div>
+        <div class="button">
+            <button onclick="makeComent()" type="button" class="btn btn-primary">리뷰 작성</button>
+        </div>
+    </div>
+    <h2>리뷰수({{ alcohol.reviews }})</h2>
+    <hr>
+    <div id="big_review_box">
+    </div>
+</div>
+</body>
+
+
+</html>

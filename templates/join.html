@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="checkbook.css">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>회원가입</title>
+</head>
+<style>
+    .wrap {
+        width: 500px;
+        height: 400px;
+        margin: 300px auto 300px auto;
+        text-align: center;
+    }
+
+    .form-control {
+        width: 300px;
+        margin: auto;
+    }
+
+    .btn {
+        margin: 50px auto 10px auto;
+        width: 400px;
+    }
+
+    .checks {
+        margin: auto;
+    }
+
+</style>
+<script>
+    function join() {
+        let id = $('#id').val()
+        let pw = $('#pw').val()
+        let name = $('#name').val()
+        let pwcheck = $('#pwcheck').val()
+        if (id === "") {
+            alert('아이디를 입력해주세요!')
+            return
+        } else if (name === "") {
+            alert('이름을 입력해주세요')
+            return
+        } else if (pw === "") {
+            alert('비밀번호를 입력해주세요')
+            return
+        } else if (pwcheck === "") {
+            alert('비밀번호를 한번 더 입력해주세요')
+            return
+        }
+        if (pw !== pwcheck) {
+            alert('비밀번호가 일치하지 않습니다!!')
+            $('#id').val("")
+            $('#pw').val("")
+            $('#name').val("")
+            $('#pwcheck').val("")
+            return
+        }
+        $.ajax({
+            type: "POST",
+            url: "/sign-up",
+            data: {
+                'id_give': id,
+                'pw_give': pw,
+                'name_give': name
+            },
+            success: function (response) {
+                alert(response['msg'])
+                window.location.href = '/login'
+            }
+        })
+    }
+
+</script>
+<body>
+<div class="wrap">
+    <h2>회원가입</h2>
+    <form id="join">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">이름</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">아이디</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="id">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"><small>비밀번호</small></label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="pw">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"><small>비밀번호(확인)</small></label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="pwcheck">
+            </div>
+            <div class="checks">
+                <input type="checkbox" id="ex_chk">
+                <label for="ex_chk">*19세 이상입니다.</label>
+            </div>
+            <button onclick="join()" type="button" class="btn btn-secondary btn-lg btn-block">회원가입</button>
+        </div>
+
+</body>
+
+</html>

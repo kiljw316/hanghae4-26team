@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>술의민족 | Sulmin </title>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    * {
+        font-family: 'Jua', sans-serif;
+    }
+
+    .join {
+        float: right;
+    }
+
+    .wrap {
+        width: 960px;
+        margin: auto;
+    }
+
+    .card {
+        float: left;
+        width: 300px;
+        height: 300px;
+        margin: 10px;
+    }
+
+    .banner {
+        width: 760px;
+        height: 100px;
+        margin: auto;
+
+        padding: 100px;
+    }
+
+    .banner-text {
+        color: black;
+        font-size: 100px;
+        text-align: center;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+
+
+<body>
+<div class="banner">
+    <div class="banner-text">술의 민족</div>
+</div>
+<div class="wrap">
+    <div class="join">
+        <button onclick="window.location.href = '/login'" type="button" class="btn btn-link">로그인</button>
+        <button onclick="window.location.href = '/'" type="button" class="btn btn-link login hidden">로그아웃</button>
+        <button onclick="window.location.href = '/join'" type="button" class="btn btn-link join">회원가입</button>
+    </div>
+    <pre></pre>
+    <pre></pre>
+    <hr>
+    <div classs="drink">
+        {% set cnt = cycler('1', '2', '3', '4', '5', '6', '7', '8', '9') %}
+        {% set num = cycler('1', '2', '3', '4', '5', '6', '7', '8', '9') %}
+        <div class="beer">
+            <h2> 맥주 </h2>
+            {% for alcohol in alcohols %}
+                {% if alcohol.cat == '맥주' %}
+                    <div class="card">
+                        <a href="/detail?name_give={{ alcohol.name }}&num_give={{ num.next() }}" class="sul_name">
+                            <img class="card-img-top"
+                                 src="../static/{{ cnt.next() }}.png"
+                                 width=300, height=200
+                                 alt="Card image cap">
+                            <div class="card-body">
+                                {{ alcohol.name }}
+                                - 리뷰수({{ alcohol.reviews }})
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="wine">
+            {% set cnt = cycler('10', '11', '12', '13', '14', '15', '16', '17', '18') %}
+            {% set num = cycler('10', '11', '12', '13', '14', '15', '16', '17', '18') %}
+            <h2> 와인 </h2>
+            {% for alcohol in alcohols %}
+                {% if alcohol.cat == '와인' %}
+                    <div class="card">
+                        <a href="/detail?name_give={{ alcohol.name }}&num_give={{ num.next() }}" class="sul_name">
+                            <img class="card-img-top"
+                                 src="../static/{{ cnt.next() }}.png"
+                                 width=300, height=200
+                                 alt="Card image cap">
+                            <div class="card-body">
+                                {{ alcohol.name }}
+                                - 리뷰수({{ alcohol.reviews }})
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="y_sul">
+            <h2> 칵테일 </h2>
+            {% set cnt = cycler('19', '20', '21', '22', '23', '24', '25', '26', '27') %}
+            {% set num = cycler('19', '20', '21', '22', '23', '24', '25', '26', '27') %}
+            {% for alcohol in alcohols %}
+                {% if alcohol.cat == '칵테일' %}
+                    <div class="card">
+                        <a href="/detail?name_give={{ alcohol.name }}&num_give={{ num.next() }}" class="sul_name">
+                            <img class="card-img-top"
+                                 src="../static/{{ cnt.next() }}.png"
+                                 width=300, height=200
+                                 alt="Card image cap">
+                            <div class="card-body">
+                                {{ alcohol.name }}
+                                - 리뷰수({{ alcohol.reviews }})
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
